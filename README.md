@@ -107,6 +107,18 @@ Add this to your `claude_desktop_config.json` to let Claude use GoldStrike as a 
 }
 ```
 
+## ⚠️ Troubleshooting (War Wounds)
+
+**1. Portainer & `.env` File Missing**
+Because `.env` files are ignored in Git for security, deploying directly from the repository in Portainer might throw an environment file error.
+* **The Fix:** In Portainer's Stack creation page, scroll down to **Environment variables**, click **Advanced mode**, and paste your `.env` contents directly. The included `docker-compose.yaml` is designed to auto-inject them.
+
+**2. Container Name Conflicts**
+*Error:* `Conflict. The container name "/my_gold_bot" is already in use...`
+* **The Fix:** You have a ghost container hogging the name. Go to the **Containers** tab in Portainer, find the old `my_gold_bot`, select it, and hit **Remove**. Redeploy your stack.
+
 ## 🛡️ License
 
-Do whatever you want with this code. Just don't blame me if you miss a trade.
+**TL;DR:** Do whatever you want with this code. Just don't blame me if you miss a trade.
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
