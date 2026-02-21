@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  gold-watcher:
+    build: .
+    image: gold-watcher-bot:latest
+    container_name: my_gold_bot
+    restart: unless-stopped
+    env_file:
+      - .env
