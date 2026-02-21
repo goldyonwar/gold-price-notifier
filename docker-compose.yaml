@@ -6,5 +6,9 @@ services:
     image: gold-watcher-bot:latest
     container_name: my_gold_bot
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - TELEGRAM_BOT_TOKEN
+      - TELEGRAM_CHAT_ID
+      - TARGET_HIGH_PRICE
+      - TARGET_LOW_PRICE
+      - CHECK_INTERVAL
