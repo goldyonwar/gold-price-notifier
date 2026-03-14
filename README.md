@@ -3,29 +3,35 @@
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Ktor](https://img.shields.io/badge/ktor-%23087CFA.svg?style=for-the-badge&logo=ktor&logoColor=white)
+![Gemini Extension](https://img.shields.io/badge/Gemini_Extension-gold--strike-blue?logo=google-gemini&logoColor=white)
 
 Stop staring at charts like a peasant. Let the machines do the heavy lifting.
 
-**GoldStrike** is a high-performance, asynchronous Kotlin bot that relentlessly tracks the price of Gold (XAU) and strikes your Telegram DMs the exact second your target price is breached. Built for speed, precision, and low resource consumption. No fluff, no memory leaks, just pure data.
+**GoldStrike** is a high-performance, asynchronous Kotlin bot that relentlessly tracks the price of Gold (XAU) and strikes your Telegram DMs the exact second your target price is breached. Now also available as a **Gemini CLI Extension**!
 
 ## 🔥 Why It's Badass
 - **Relentless Monitoring:** Powered by Kotlin Coroutines to track prices asynchronously without blocking the main thread.
 - **Zero-Bullshit Alerts:** Only alerts you when the price crosses your aggressively defined thresholds. No spam, no false alarms.
-- **MCP Integration:** Now acts as a **Model Context Protocol (MCP)** server, allowing AI agents to query real-time gold prices directly.
+- **Gemini CLI Extension:** Install it directly into your Gemini CLI for instant gold price queries during your workflow.
+- **MCP Integration:** Acts as a **Model Context Protocol (MCP)** server, allowing AI agents to query real-time gold prices directly.
 - **Bulletproof Architecture:** Engineered with Ktor CIO client, precise HTTP timeouts, and graceful JVM shutdowns. It doesn't crash; it terminates systematically.
-- **Dockerized to the Teeth:** Deploy it on your Home NAS, VPS, or local machine in seconds. Multi-architecture support (Apple Silicon M1/M2/M3 & standard AMD64) right out of the box.
 
-## 🛠 Tech Stack Stacked for War
-- **Language:** Kotlin 1.9+
-- **Network Engine:** Ktor Client (CIO)
-- **Concurrency:** Kotlin Coroutines
-- **Serialization:** kotlinx.serialization
-- **MCP SDK:** Model Context Protocol Kotlin SDK
-- **Deployment:** Docker
+## 🚀 Instant Deployment (Gemini CLI)
+
+The easiest way to use GoldStrike is as a [Gemini CLI extension](https://geminicli.com/extensions/).
+
+```bash
+# 1. Install the extension
+gemini extensions install <your-github-username>/gold-price-notifier
+
+# 2. Ask Gemini for the gold price
+gemini "What is the current gold price?"
+```
+*Requires Java 17+ installed locally.*
 
 ## ⚙️ Configuration (The Arsenal)
 
-Before you fire up the bot, you need to arm it with your environment variables. Create a `.env` file in the root directory:
+If you are running the **Telegram Watcher Bot**, you need to arm it with environment variables. Create a `.env` file in the root directory:
 
 **Intel Gathering (Pre-requisites):**
 - **Bot Token:** Talk to [@BotFather](https://t.me/BotFather) on Telegram to create your bot and get the token.
@@ -46,12 +52,10 @@ TARGET_LOW_PRICE=5080.0
 CHECK_INTERVAL=60000
 ```
 
-## 🚀 Deployment (Launch Sequence)
-
-### Mode 1: The Watcher Bot (Standard)
+## 🛠 Mode 1: The Watcher Bot (Standard)
 This is the default mode that monitors prices and sends Telegram alerts.
 
-#### Option A: Docker (Recommended)
+### Option A: Docker (Recommended)
 ```bash
 # 1. Build the image
 docker build -t gold-watcher-bot .
@@ -60,22 +64,15 @@ docker build -t gold-watcher-bot .
 docker run -d --name my_gold_bot --env-file .env gold-watcher-bot
 ```
 
-#### Option B: Gradle
+### Option B: Gradle
 ```bash
 ./gradlew run
 ```
 
-#### Option C: The Homelab Way (Docker Compose)
-Perfect for Raspberry Pi, Portainer, or 24/7 Home Servers.
-Create a `docker-compose.yaml` (already included in the repo) and run:
+---
 
-```bash
-docker compose up -d --build
-```
-
-
-### Mode 2: MCP Server (AI Agent Integration)
-Run GoldStrike as an MCP server to expose gold price tracking to your AI tools (Claude, etc.).
+## 🛠 Mode 2: MCP Server (AI Agent Integration)
+Run GoldStrike as a standalone MCP server to expose gold price tracking to your AI tools (Claude, etc.).
 
 ```bash
 # Run with the --mcp flag
@@ -86,20 +83,14 @@ Run GoldStrike as an MCP server to expose gold price tracking to your AI tools (
 - `get_gold_price`: Fetches the real-time gold price in USD (XAU).
 
 #### MCP Client Configuration (e.g., Claude Desktop)
-Add this to your `claude_desktop_config.json` to let Claude use GoldStrike as a tool:
-
 ```json
 {
   "mcpServers": {
     "gold-watcher": {
-      "command": "docker",
+      "command": "java",
       "args": [
-        "run",
-        "-i",
-        "--rm",
-        "--env-file",
-        "/absolute/path/to/your/.env",
-        "gold-watcher-bot:latest",
+        "-jar",
+        "/absolute/path/to/gold-price-notifier-all.jar",
         "--mcp"
       ]
     }
@@ -107,18 +98,5 @@ Add this to your `claude_desktop_config.json` to let Claude use GoldStrike as a 
 }
 ```
 
-## ⚠️ Troubleshooting (War Wounds)
-
-**1. Portainer & `.env` File Missing**
-Because `.env` files are ignored in Git for security, deploying directly from the repository in Portainer might throw an environment file error.
-* **The Fix:** In Portainer's Stack creation page, scroll down to **Environment variables**, click **Advanced mode**, and paste your `.env` contents directly. The included `docker-compose.yaml` is designed to auto-inject them.
-
-**2. Container Name Conflicts**
-*Error:* `Conflict. The container name "/my_gold_bot" is already in use...`
-* **The Fix:** You have a ghost container hogging the name. Go to the **Containers** tab in Portainer, find the old `my_gold_bot`, select it, and hit **Remove**. Redeploy your stack.
-
 ## 🛡️ License
-
-**TL;DR:** Do whatever you want with this code. Just don't blame me if you miss a trade.
-
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
