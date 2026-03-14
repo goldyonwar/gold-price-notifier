@@ -1,7 +1,14 @@
 {
   "name": "gold-strike",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Real-time gold price tracker (XAU) via Model Context Protocol.",
+  "topics": [
+    "gold",
+    "price-tracker",
+    "mcp-server",
+    "finance",
+    "real-time-data"
+  ],
   "mcpServers": {
     "gold-strike": {
       "command": "java",
