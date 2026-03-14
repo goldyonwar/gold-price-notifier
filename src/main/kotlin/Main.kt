@@ -62,20 +62,24 @@ suspend fun runMcpServer() {
             description = "Get the real-time gold price in USD (XAU).",
             inputSchema = ToolSchema()
         ) { _ ->
-            val goldData = apiClient.fetchGoldPrice()
-            val resultText = goldData?.let { gData->
-                "The current gold price is $${gData.price} per ounce (Updated: ${gData.updatedAt})."
-            } ?: "Sorry, unable to fetch the gold price at the moment. Please try again later."
-
-            CallToolResult(
-                content = listOf(TextContent(text = resultText))
-            )
+            handleGetGoldPrice(apiClient)
         }
 
         val transport = StdioServerTransport(System.`in`.asSource().buffered(), System.out.asSink().buffered())
         server.createSession(transport)
         awaitCancellation()
     }
+}
+
+suspend fun handleGetGoldPrice(apiClient: GoldPriceApiClient): CallToolResult {
+    val goldData = apiClient.fetchGoldPrice()
+    val resultText = goldData?.let { gData ->
+        "The current gold price is $${gData.price} per ounce (Updated: ${gData.updatedAt})."
+    } ?: "Sorry, unable to fetch the gold price at the moment. Please try again later."
+
+    return CallToolResult(
+        content = listOf(TextContent(text = resultText))
+    )
 }
 
 suspend fun runWatcherBot() {
