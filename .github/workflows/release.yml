@@ -27,7 +27,7 @@ jobs:
         run: ./gradlew shadowJar
         
       - name: Rename JAR for Extension
-        run: mv build/libs/gold-price-notifier-1.0.0-all.jar build/libs/gold-price-notifier-all.jar
+        run: mv build/libs/gold-price-notifier-*-all.jar build/libs/gold-price-notifier-all.jar
 
       - name: Create Release
         uses: softprops/action-gh-release@v2

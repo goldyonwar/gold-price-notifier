@@ -1,6 +1,6 @@
 {
   "name": "gold-strike",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Real-time gold price tracker (XAU) via Model Context Protocol.",
   "topics": [
     "gold",
