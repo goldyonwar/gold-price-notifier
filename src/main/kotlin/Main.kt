@@ -49,7 +49,7 @@ suspend fun runMcpServer() {
         val apiClient = GoldPriceApiClient(client)
 
         val server = Server(
-            serverInfo = Implementation(name = "GoldWatcherMCP", version = "1.0.0"),
+            serverInfo = Implementation(name = "GoldWatcherMCP", version = "1.0.3"),
             options = ServerOptions(
                 capabilities = ServerCapabilities(
                     tools = ServerCapabilities.Tools(listChanged = false)

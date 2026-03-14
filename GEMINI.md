@@ -22,7 +22,7 @@ The project uses Gradle as its build system.
 - **Run MCP Server:** `./gradlew run --args="--mcp"`
 - **Docker Build:** `docker build -t gold-watcher-bot .`
 - **Docker Run:** `docker run -d --env-file .env gold-watcher-bot`
-- **Test:** `./gradlew test` (Currently no tests implemented).
+- **Test:** `./gradlew test` (Runs the automated test suite).
 
 ## Development Conventions
 - **Project Structure:** Follows standard Gradle conventions (`src/main/kotlin`).

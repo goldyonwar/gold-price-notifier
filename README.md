@@ -10,11 +10,12 @@ Stop staring at charts like a peasant. Let the machines do the heavy lifting.
 **GoldStrike** is a high-performance, asynchronous Kotlin bot that relentlessly tracks the price of Gold (XAU) and strikes your Telegram DMs the exact second your target price is breached. Now also available as a **Gemini CLI Extension**!
 
 ## 🔥 Why It's Badass
-- **Relentless Monitoring:** Powered by Kotlin Coroutines to track prices asynchronously without blocking the main thread.
+- **Relentless Monitoring:** Powered by **Kotlin 2.3.0** Coroutines to track prices asynchronously without blocking the main thread.
+- **Modern Networking:** Engineered with **Ktor 3.1.0** CIO client, precise HTTP timeouts, and graceful JVM shutdowns.
 - **Zero-Bullshit Alerts:** Only alerts you when the price crosses your aggressively defined thresholds. No spam, no false alarms.
 - **Gemini CLI Extension:** Install it directly into your Gemini CLI for instant gold price queries during your workflow.
 - **MCP Integration:** Acts as a **Model Context Protocol (MCP)** server, allowing AI agents to query real-time gold prices directly.
-- **Bulletproof Architecture:** Engineered with Ktor CIO client, precise HTTP timeouts, and graceful JVM shutdowns. It doesn't crash; it terminates systematically.
+- **Battle-Tested:** High-precision unit testing using **MockK** ensuring every strike is calculated and verified.
 
 ## 🚀 Instant Deployment (Gemini CLI)
 
@@ -79,6 +80,14 @@ Run GoldStrike as a standalone MCP server to expose gold price tracking to your 
 ./gradlew run --args="--mcp"
 ```
 
+### Building the Artifact
+To use GoldStrike as a standalone JAR (required for some MCP clients), build the fat JAR first:
+
+```bash
+./gradlew shadowJar
+```
+This produces the artifact at `build/libs/gold-price-notifier-all.jar`.
+
 **Exposed Tools:**
 - `get_gold_price`: Fetches the real-time gold price in USD (XAU).
 
@@ -96,6 +105,13 @@ Run GoldStrike as a standalone MCP server to expose gold price tracking to your 
     }
   }
 }
+```
+
+## 🧪 Testing (Verifying the Strike)
+Run the automated test suite to ensure the tracker and MCP logic are working as expected:
+
+```bash
+./gradlew test
 ```
 
 ## 🛡️ License
