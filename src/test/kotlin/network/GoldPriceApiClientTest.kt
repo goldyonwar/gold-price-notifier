@@ -15,44 +15,48 @@ import kotlin.test.assertNotNull
 class GoldPriceApiClientTest {
 
     @Test
-    fun `fetchGoldPrice should return response when API is successful`() = runTest {
-        // Setup mock engine
-        val mockEngine = MockEngine { request ->
-            respond(
-                content = """{"name":"Gold","symbol":"XAU","price":2000.0,"updatedAt":"2024-03-14T12:00:00Z"}""",
-                status = HttpStatusCode.OK,
-                headers = headersOf(HttpHeaders.ContentType, "application/json")
-            )
-        }
-
-        val client = HttpClient(mockEngine) {
-            install(ContentNegotiation) {
-                json(Json { ignoreUnknownKeys = true })
+    fun `fetchGoldPrice should return response when API is successful`() {
+        runTest {
+            // Setup mock engine
+            val mockEngine = MockEngine { request ->
+                respond(
+                    content = """{"name":"Gold","symbol":"XAU","price":2000.0,"updatedAt":"2024-03-14T12:00:00Z"}""",
+                    status = HttpStatusCode.OK,
+                    headers = headersOf(HttpHeaders.ContentType, "application/json")
+                )
             }
+
+            val client = HttpClient(mockEngine) {
+                install(ContentNegotiation) {
+                    json(Json { ignoreUnknownKeys = true })
+                }
+            }
+
+            val apiClient = GoldPriceApiClient(client)
+            val response = apiClient.fetchGoldPrice()
+
+            assertNotNull(response)
+            assertEquals(2000.0, response.price)
+            assertEquals("XAU", response.symbol)
         }
-
-        val apiClient = GoldPriceApiClient(client)
-        val response = apiClient.fetchGoldPrice()
-
-        assertNotNull(response)
-        assertEquals(2000.0, response.price)
-        assertEquals("XAU", response.symbol)
     }
 
     @Test
-    fun `fetchGoldPrice should return null when API fails`() = runTest {
-        val mockEngine = MockEngine { request ->
-            respond(
-                content = "Internal Server Error",
-                status = HttpStatusCode.InternalServerError
-            )
+    fun `fetchGoldPrice should return null when API fails`() {
+        runTest {
+            val mockEngine = MockEngine { request ->
+                respond(
+                    content = "Internal Server Error",
+                    status = HttpStatusCode.InternalServerError
+                )
+            }
+
+            val client = HttpClient(mockEngine)
+
+            val apiClient = GoldPriceApiClient(client)
+            val response = apiClient.fetchGoldPrice()
+
+            assertEquals(null, response)
         }
-
-        val client = HttpClient(mockEngine)
-
-        val apiClient = GoldPriceApiClient(client)
-        val response = apiClient.fetchGoldPrice()
-
-        assertEquals(null, response)
     }
 }

@@ -1,12 +1,12 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
-    id("com.github.johnrengelman.shadow") version "8.1.1"
     application
+    alias(libs.plugins.shadow)
 }
 
 group = "com.goldyonwar"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
