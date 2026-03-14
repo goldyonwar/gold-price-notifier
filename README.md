@@ -22,7 +22,7 @@ The easiest way to use GoldStrike is as a [Gemini CLI extension](https://geminic
 
 ```bash
 # 1. Install the extension
-gemini extensions install <your-github-username>/gold-price-notifier
+gemini extensions install https://github.com/goldyonwar/gold-price-notifier
 
 # 2. Ask Gemini for the gold price
 gemini "What is the current gold price?"
